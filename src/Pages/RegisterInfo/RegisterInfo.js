@@ -1,10 +1,18 @@
 import { Box, Button, FormControl, MenuItem, TextField } from '@mui/material';
-import React from 'react';
+import React, { useState } from 'react';
 import './RegisterInfo.css'
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addCompany } from '../../Redux/Slices/companySlice';
 
 const RegisterInfo = () => {
     const navigate = useNavigate()
+    const [name, setName] = useState('')
+    const [domain, setDomain] = useState('')
+    const [district, setDistrict] = useState('')
+    const [division, setDivision] = useState('')
+    const [address, setAddress] = useState('')
+    const dispatch = useDispatch();
     const District = [
         {
             name: 'dhaka'
@@ -22,7 +30,27 @@ const RegisterInfo = () => {
     ];
 
     const handleSubmit = () => {
-        navigate('/dashboard')
+
+        const data = {
+            'name': name,
+            'domain': domain,
+            'district': district,
+            'division': division,
+            'address': address
+        }
+
+
+
+        // console.log(data);
+
+        if (name && domain && district && division) {
+            dispatch(addCompany(data))
+            navigate('/dashboard')
+        }
+
+
+
+
 
     }
 
@@ -35,8 +63,8 @@ const RegisterInfo = () => {
                         placeholder="Enter your Name"
                         variant="outlined"
                         sx={{ margin: "12px 0" }}
-                    // value={name}
-                    // onChange={(e) => setName(e.target.value)}
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
                     />
                 </FormControl>
                 <FormControl sx={{ width: '100%' }}>
@@ -45,8 +73,8 @@ const RegisterInfo = () => {
                         placeholder="Enter Domain"
                         variant="outlined"
                         sx={{ margin: "12px 0" }}
-                    // value={name}
-                    // onChange={(e) => setName(e.target.value)}
+                        value={domain}
+                        onChange={(e) => setDomain(e.target.value)}
                     />
                 </FormControl>
                 <FormControl sx={{ width: '100%' }}>
@@ -55,6 +83,7 @@ const RegisterInfo = () => {
                         select
                         label="Select"
                         sx={{ margin: "12px 0" }}
+                        onChange={(e) => setDistrict(e.target.value)}
 
                     >
                         {District.map((option) => (
@@ -68,6 +97,7 @@ const RegisterInfo = () => {
                         select
                         label="Select"
                         sx={{ margin: "12px 0" }}
+                        onChange={(e) => setDivision(e.target.value)}
 
                     >
                         {Division.map((option) => (
@@ -83,8 +113,8 @@ const RegisterInfo = () => {
                         placeholder="Address"
                         variant="outlined"
                         sx={{ margin: "12px 0", borderRadius: '17px' }}
-                    // value={name}
-                    // onChange={(e) => setName(e.target.value)}
+                        value={address}
+                        onChange={(e) => setAddress(e.target.value)}
                     />
                 </FormControl>
 
